@@ -58,7 +58,7 @@ Classification with SVM
 
 
 #model = LinearSVC(max_iter=10000,  tol=0.00000001)
-model = LinearSVC(C=0.1, max_iter=4000, dual=False, tol=0.0000000001)
+model = LinearSVC(C=0.03, max_iter=4000, dual=False, tol=0.0000000001)
 print('Training...... Support Vector Machine')
 model.fit(train_data,train_labels)
 

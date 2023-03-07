@@ -8,16 +8,13 @@ from skimage.feature import hog
 from skimage import color
 from skimage.transform import pyramid_gaussian
 
-# GOAL (hard negative mining): add false positives to the negative dataset
-#       in a separate folder which the training considers after the OGs
-
 hard_neg = False # control whether or not to perform hard negative mining to train the SVM
 hard_neg_path = 'DATAIMAGE/hard_negative/'
 
-im_suff = 0
+im_suff = 1044
 
-test_path =  'test/'
-#test_path = 'DATAIMAGE/positive/'
+#test_path =  'test/'
+test_path = 'test_new/'
 
 for filename in glob.glob(os.path.join(test_path, "*")):
 	image = cv2.imread(filename)
@@ -77,7 +74,7 @@ for filename in glob.glob(os.path.join(test_path, "*")):
 	sc = [score[0] for (x, y, score, w, h) in detections]
 #print ("sc: ", sc)
 	sc = np.array(sc)
-	pick = non_max_suppression(rects, probs = sc, overlapThresh = 0.30)
+	pick = non_max_suppression(rects, probs = sc, overlapThresh = 0.35)
 	for(x1, y1, x2, y2) in pick:
 		cv2.rectangle(clone, (x1, y1), (x2, y2), (0, 255, 0), 2)
 		cv2.putText(clone,'Person',(x1-2,y1-2),1,0.75,(121,12,34),1)
@@ -89,5 +86,5 @@ for filename in glob.glob(os.path.join(test_path, "*")):
 	print(f"hog takes {hog_time/svm_time} more time than svm classification")
 
 	cv2.imshow('Person Detection',clone)
-	cv2.waitKey(0)
+	cv2.waitKey(3000)
 	cv2.destroyAllWindows()
